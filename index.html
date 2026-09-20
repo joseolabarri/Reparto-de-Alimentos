@@ -6,22 +6,25 @@
 <title>Reparto de alimentos · Parroquia de Santa Matilde</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#F5F4F0;
     --surface:#FFFFFF;
     --ink:#1E2A32;
-    --ink-soft:#5F6B70;
-    --line:#E3E1DA;
-    --line-soft:#EEEDE8;
+    --ink-soft:#616D73;
+    --ink-faint:#8A939A;
+    --line:#E4E2DB;
+    --line-soft:#EFEEE9;
     --primary:#2E6E68;
     --primary-dark:#245751;
     --primary-tint:#E8F1EF;
     --warn:#B85C1B;
     --warn-tint:#FBEEE2;
+    --warn-line:#EBD3BC;
     --danger:#A23B32;
-    --shadow:0 1px 2px rgba(30,42,50,.05),0 8px 24px rgba(30,42,50,.05);
+    --radius:14px;
+    --shadow:0 1px 2px rgba(30,42,50,.04),0 10px 30px rgba(30,42,50,.05);
     box-sizing:border-box;
     padding-top:env(safe-area-inset-top,0px);
     padding-bottom:env(safe-area-inset-bottom,0px);
@@ -32,187 +35,221 @@
     background:var(--paper);
     color:var(--ink);
     font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    font-size:15px;
-    line-height:1.5;
+    font-size:16px;
+    line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
   }
-  h1,h2,h3{margin:0;font-weight:600;line-height:1.2}
+  h1,h2,h3{margin:0;font-weight:600;line-height:1.25}
   button{font-family:inherit;font-size:inherit;cursor:pointer}
   input,select,textarea{font-family:inherit;font-size:inherit;color:var(--ink)}
   a{color:var(--primary)}
+  .serif{font-family:'Fraunces',Georgia,serif}
 
   /* ---------- Buttons ---------- */
   .btn{
     display:inline-flex;align-items:center;gap:.45em;
     border:1px solid var(--line);background:var(--surface);color:var(--ink);
-    padding:.5em .9em;border-radius:9px;font-weight:500;
-    transition:background .12s ease,border-color .12s ease,color .12s ease;
+    padding:.55em 1em;border-radius:10px;font-weight:500;line-height:1.2;
+    transition:background .12s ease,border-color .12s ease,color .12s ease,box-shadow .12s ease;
   }
   .btn:hover{background:var(--line-soft)}
+  .btn:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
   .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
   .btn.primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
-  .btn.ghost{border-color:transparent;background:transparent;color:var(--ink-soft);padding:.5em .6em}
+  .btn.ghost{border-color:transparent;background:transparent;color:var(--ink-soft)}
   .btn.ghost:hover{background:var(--line-soft);color:var(--ink)}
   .btn.danger{color:var(--danger);border-color:transparent;background:transparent}
   .btn.danger:hover{background:#F7ECEA}
-  .btn.small{padding:.35em .65em;font-size:13.5px;border-radius:7px}
+  .btn.small{padding:.4em .75em;font-size:14px;border-radius:8px}
   .btn:disabled{opacity:.5;cursor:not-allowed}
-
-  .icon{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .icon{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
 
   /* ---------- Login ---------- */
   .login-wrap{min-height:100dvh;display:grid;place-items:center;padding:24px}
   .login-card{
-    width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);
-    border-radius:16px;padding:34px 30px;box-shadow:var(--shadow);
+    width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line);
+    border-radius:18px;padding:40px 34px;box-shadow:var(--shadow);
   }
-  .login-mark{font-family:'Fraunces',serif;font-size:15px;color:var(--primary);letter-spacing:.01em}
-  .login-card h1{font-family:'Fraunces',serif;font-size:25px;margin:6px 0 4px;font-weight:500}
-  .login-card p.sub{color:var(--ink-soft);margin:0 0 24px;font-size:14px}
-  .field{margin-bottom:14px}
-  .field label{display:block;font-size:13px;font-weight:500;color:var(--ink-soft);margin-bottom:6px}
-  .field input{
-    width:100%;padding:.65em .75em;border:1px solid var(--line);border-radius:9px;background:#fff;
+  .login-mark{font-family:'Fraunces',serif;font-size:15px;color:var(--primary)}
+  .login-card h1{font-family:'Fraunces',serif;font-size:28px;margin:6px 0 6px;font-weight:500}
+  .login-card p.sub{color:var(--ink-soft);margin:0 0 26px;font-size:15px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:13.5px;font-weight:500;color:var(--ink-soft);margin-bottom:7px}
+  .field input{width:100%;padding:.72em .8em;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .field input:focus,.row-input:focus,textarea:focus,.date-input:focus,.search-bar input:focus{
+    outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-tint)
   }
-  .field input:focus,.row-input:focus,textarea:focus,.date-input:focus{
-    outline:2px solid var(--primary-tint);outline-offset:0;border-color:var(--primary)
-  }
-  .form-error{color:var(--danger);font-size:13.5px;margin:2px 0 14px;min-height:1.2em}
+  .form-error{color:var(--danger);font-size:14px;margin:2px 0 16px;min-height:1.2em}
 
   /* ---------- App shell ---------- */
-  .app-root{max-width:920px;margin:0 auto;padding:0 20px 80px}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 0 18px;gap:16px;flex-wrap:wrap}
-  .brand{display:flex;flex-direction:column;line-height:1.15}
-  .brand .name{font-family:'Fraunces',serif;font-size:22px;font-weight:500}
-  .brand .place{font-size:13px;color:var(--ink-soft)}
-  .topbar .who{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-soft)}
+  .app-root{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:26px 0 20px;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;flex-direction:column;line-height:1.18}
+  .brand .name{font-family:'Fraunces',serif;font-size:24px;font-weight:500}
+  .brand .place{font-size:14px;color:var(--ink-soft)}
+  .topbar .who{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--ink-soft)}
 
   .alert-banner{
     display:none;align-items:center;gap:12px;width:100%;
-    background:var(--warn-tint);border:1px solid #EBD3BC;color:#7A3E12;
-    border-radius:12px;padding:12px 14px;margin-bottom:18px;cursor:pointer;
+    background:var(--warn-tint);border:1px solid var(--warn-line);color:#7A3E12;
+    border-radius:12px;padding:14px 16px;margin-bottom:18px;cursor:pointer;font-size:15px;
   }
   .alert-banner.show{display:flex}
   .alert-banner .icon{stroke:#B85C1B}
   .alert-banner strong{font-weight:600;color:#5E2F0C}
 
-  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:24px}
+  .tabs-wrap{position:sticky;top:0;z-index:20;background:var(--paper);
+    border-bottom:1px solid var(--line);margin-bottom:30px;
+    box-shadow:0 8px 14px -12px rgba(30,42,50,.12)}
+  .tabs{display:flex;gap:6px}
   .tab{
-    border:none;background:none;padding:10px 14px;color:var(--ink-soft);font-weight:500;
+    border:none;background:none;padding:14px 16px;color:var(--ink-soft);font-weight:500;font-size:15.5px;
     border-bottom:2px solid transparent;margin-bottom:-1px;border-radius:0;
   }
   .tab:hover{color:var(--ink)}
-  .tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+  .tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
   .tab .count{font-size:12px;background:var(--warn);color:#fff;border-radius:20px;padding:1px 7px;margin-left:6px;font-weight:600;vertical-align:1px}
 
-  .view-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
-  .view-head h2{font-size:19px}
+  .view-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+  .view-head h2{font-family:'Fraunces',serif;font-size:26px;font-weight:500}
   .view-head .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .muted{color:var(--ink-soft)}
 
-  /* ---------- Reparto list ---------- */
-  .reparto-row{
+  /* ---------- Reparto list (una sola tarjeta con filas) ---------- */
+  .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .list-row{
     display:flex;align-items:center;justify-content:space-between;gap:14px;
-    background:var(--surface);border:1px solid var(--line);border-radius:12px;
-    padding:14px 16px;margin-bottom:10px;
+    padding:18px 22px;cursor:pointer;transition:background .12s ease;
   }
-  .reparto-row .meta .date{font-weight:600;font-size:15.5px}
-  .reparto-row .meta .stat{font-size:13px;color:var(--ink-soft);margin-top:2px}
-  .reparto-row .row-actions{display:flex;gap:2px;flex:none}
+  .list-row + .list-row{border-top:1px solid var(--line-soft)}
+  .list-row:hover{background:#FAFAF8}
+  .list-row .meta .date{font-family:'Fraunces',serif;font-weight:500;font-size:19px;letter-spacing:.005em}
+  .list-row .meta .stat{font-size:14px;color:var(--ink-soft);margin-top:3px}
+  .list-row .row-actions{display:flex;gap:2px;flex:none;align-items:center}
+  .list-row .chev{color:var(--ink-faint)}
 
   .empty{
     text-align:center;color:var(--ink-soft);background:var(--surface);
-    border:1px dashed var(--line);border-radius:14px;padding:44px 24px;
+    border:1px dashed var(--line);border-radius:var(--radius);padding:56px 24px;
   }
-  .empty h3{font-family:'Fraunces',serif;font-weight:500;font-size:19px;color:var(--ink);margin-bottom:6px}
+  .empty h3{font-family:'Fraunces',serif;font-weight:500;font-size:21px;color:var(--ink);margin-bottom:8px}
 
-  /* ---------- Editor form ---------- */
-  .editor{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
-  .editor h2{font-family:'Fraunces',serif;font-weight:500;font-size:21px;margin-bottom:4px}
-  .editor .lead{color:var(--ink-soft);font-size:13.5px;margin-bottom:22px}
-  fieldset{border:none;padding:0;margin:0 0 26px}
-  fieldset > legend{font-size:14.5px;font-weight:600;padding:0;margin-bottom:4px}
-  fieldset > .hint{font-size:12.5px;color:var(--ink-soft);margin-bottom:12px}
-  .date-input{padding:.6em .7em;border:1px solid var(--line);border-radius:9px;background:#fff;max-width:220px}
+  /* ---------- Detalle (lectura) ---------- */
+  .back{margin-bottom:14px;margin-left:-8px}
+  .detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding-bottom:22px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+  .detail-date{font-family:'Fraunces',serif;font-size:31px;font-weight:500;line-height:1.1}
+  .detail-sub{color:var(--ink-soft);font-size:14.5px;margin-top:6px}
+  .detail-actions{display:flex;gap:8px;flex-wrap:wrap}
 
-  .rows{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
-  .entry{display:flex;gap:8px;align-items:flex-start}
-  .entry .row-input{flex:1 1 auto;min-width:0;padding:.55em .7em;border:1px solid var(--line);border-radius:9px;background:#fff}
-  .entry .personas{width:74px;flex:none;padding:.55em .5em;border:1px solid var(--line);border-radius:9px;background:#fff;text-align:center}
+  .block{padding:26px 0;border-bottom:1px solid var(--line-soft)}
+  .block:last-child{border-bottom:none}
+  .block-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .block-head h3{font-size:15px;font-weight:600;letter-spacing:.01em}
+  .block-head .tag{font-size:13px;font-weight:600;color:var(--primary);background:var(--primary-tint);
+    border-radius:20px;padding:2px 10px}
+  .block-head .totals{margin-left:auto;font-size:13.5px;color:var(--ink-soft)}
+
+  .namecols{columns:3;column-gap:40px}
+  .nameitem{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    break-inside:avoid;padding:9px 0;border-bottom:1px solid var(--line-soft)}
+  .nameitem .nm{font-size:15.5px}
+  .nameitem .pc{font-variant-numeric:tabular-nums;color:var(--ink-faint);font-size:14px;flex:none}
+  @media(max-width:900px){.namecols{columns:2}}
+  @media(max-width:600px){.namecols{columns:1}}
+
+  .noalta-list{display:flex;flex-direction:column;gap:16px;max-width:72ch}
+  .noalta-item .noalta-top{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .noalta-item .nm{font-size:15.5px;font-weight:500}
+  .noalta-item .pc{color:var(--ink-faint);font-size:14px;flex:none}
+  .noalta-item .obs{color:var(--ink-soft);font-size:14.5px;margin-top:4px;line-height:1.6}
+
+  .freetext{max-width:72ch;line-height:1.75;color:var(--ink);white-space:normal}
+
+  /* ---------- Editor ---------- */
+  .editor{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 28px 24px;box-shadow:var(--shadow)}
+  .editor h2{font-family:'Fraunces',serif;font-weight:500;font-size:25px;margin-bottom:4px}
+  .editor .lead{color:var(--ink-soft);font-size:14.5px;margin-bottom:26px}
+  fieldset{border:none;padding:0;margin:0 0 30px}
+  fieldset > legend{font-size:15.5px;font-weight:600;padding:0;margin-bottom:4px}
+  fieldset > .hint{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
+  .date-input{padding:.62em .72em;border:1px solid var(--line);border-radius:10px;background:#fff;max-width:220px}
+  .rows{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
+  .entry{display:flex;gap:9px;align-items:flex-start}
+  .entry .row-input{flex:1 1 auto;min-width:0;padding:.6em .75em;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .entry .personas{width:78px;flex:none;padding:.6em .5em;border:1px solid var(--line);border-radius:10px;background:#fff;text-align:center}
   .entry.with-note{flex-wrap:wrap}
-  .entry.with-note .obs{flex:1 1 100%;padding:.55em .7em;border:1px solid var(--line);border-radius:9px;background:#fff;resize:vertical;min-height:38px}
-  .entry .rm{flex:none;color:var(--ink-soft);border:none;background:none;padding:8px;border-radius:8px;line-height:0}
+  .entry.with-note .obs{flex:1 1 100%;padding:.6em .75em;border:1px solid var(--line);border-radius:10px;background:#fff;resize:vertical;min-height:40px;line-height:1.5}
+  .entry .rm{flex:none;color:var(--ink-faint);border:none;background:none;padding:9px;border-radius:8px;line-height:0}
   .entry .rm:hover{background:#F7ECEA;color:var(--danger)}
-  .col-label{display:flex;gap:8px;font-size:12px;color:var(--ink-soft);margin-bottom:2px;padding:0 2px}
+  .col-label{display:flex;gap:9px;font-size:12.5px;color:var(--ink-soft);margin-bottom:4px;padding:0 2px}
   .col-label .l-name{flex:1}
-  .col-label .l-num{width:74px;flex:none;text-align:center}
-  .col-label .l-sp{width:33px;flex:none}
-  textarea.incidencias{width:100%;min-height:90px;padding:.65em .75em;border:1px solid var(--line);border-radius:9px;background:#fff;resize:vertical;line-height:1.55}
-  .editor-foot{display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--line-soft);padding-top:18px}
+  .col-label .l-num{width:78px;flex:none;text-align:center}
+  .col-label .l-sp{width:35px;flex:none}
+  textarea.incidencias{width:100%;min-height:100px;padding:.7em .8em;border:1px solid var(--line);border-radius:10px;background:#fff;resize:vertical;line-height:1.6}
+  .editor-foot{display:flex;gap:10px;align-items:center;border-top:1px solid var(--line-soft);padding-top:20px}
   .editor-foot .spacer{flex:1}
 
-  /* ---------- Personas ---------- */
-  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:20px}
-  .search-bar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+  /* ---------- Panels / Personas / Análisis ---------- */
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin-bottom:22px}
+  .search-bar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
   .search-bar .field{margin:0}
-  .search-bar .field.grow{flex:1 1 240px}
-  .search-bar .field input,.search-bar .field .date-input{width:100%;padding:.6em .7em;border:1px solid var(--line);border-radius:9px;background:#fff}
-  .range{display:flex;gap:10px}
+  .search-bar .field.grow{flex:1 1 260px}
+  .search-bar .field input,.search-bar .field .date-input{width:100%;padding:.65em .75em;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .range{display:flex;gap:12px}
   .range .field{margin:0}
 
-  .ficha .fname{font-family:'Fraunces',serif;font-size:23px;font-weight:500;margin-bottom:14px}
-  .stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}
-  .stat-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 18px;min-width:120px}
-  .stat-card .n{font-family:'Fraunces',serif;font-size:30px;font-weight:500;line-height:1}
+  .ficha .fname{font-family:'Fraunces',serif;font-size:26px;font-weight:500;margin-bottom:18px}
+  .stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  .stat-card{background:var(--paper);border:1px solid var(--line-soft);border-radius:12px;padding:16px 20px;min-width:132px}
+  .stat-card .n{font-family:'Fraunces',serif;font-size:34px;font-weight:500;line-height:1}
   .stat-card .n.warn{color:var(--warn)}
-  .stat-card .k{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
-  .date-list{list-style:none;padding:0;margin:0;columns:2;column-gap:28px}
-  .date-list li{padding:5px 0;border-bottom:1px solid var(--line-soft);break-inside:avoid;font-size:14px}
+  .stat-card .k{font-size:13px;color:var(--ink-soft);margin-top:8px}
+  .date-list{list-style:none;padding:0;margin:14px 0 0;columns:3;column-gap:40px}
+  .date-list li{padding:8px 0;border-bottom:1px solid var(--line-soft);break-inside:avoid;font-size:15px}
+  @media(max-width:820px){.date-list{columns:2}}
   @media(max-width:560px){.date-list{columns:1}}
 
-  /* ---------- Análisis ---------- */
-  .alert-card{
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
-    background:var(--warn-tint);border:1px solid #EBD3BC;border-radius:12px;
-    padding:13px 16px;margin-bottom:9px;
-  }
-  .alert-card .name{font-weight:600;color:#5E2F0C}
-  .alert-card .runs{font-size:12.5px;color:#7A3E12;margin-top:2px}
-  .alert-card .streak{font-family:'Fraunces',serif;font-size:26px;font-weight:500;color:var(--warn);flex:none}
-  .alert-card .streak small{font-family:'Inter';font-size:11px;font-weight:500;display:block;text-align:right;color:#7A3E12}
+  .alert-card{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:var(--warn-tint);border:1px solid var(--warn-line);border-radius:12px;padding:15px 18px;margin-bottom:10px}
+  .alert-card .name{font-weight:600;color:#5E2F0C;font-size:16px}
+  .alert-card .runs{font-size:13px;color:#7A3E12;margin-top:3px}
+  .alert-card .streak{font-family:'Fraunces',serif;font-size:28px;font-weight:500;color:var(--warn);flex:none;text-align:right}
+  .alert-card .streak small{font-family:'Inter';font-size:11px;font-weight:500;display:block;color:#7A3E12}
 
-  table.rank{width:100%;border-collapse:collapse;font-size:14px}
-  table.rank th{text-align:left;font-weight:500;color:var(--ink-soft);font-size:12.5px;padding:6px 10px;border-bottom:1px solid var(--line)}
-  table.rank td{padding:9px 10px;border-bottom:1px solid var(--line-soft)}
+  table.rank{width:100%;border-collapse:collapse;font-size:15px}
+  table.rank th{text-align:left;font-weight:500;color:var(--ink-soft);font-size:13px;padding:8px 12px;border-bottom:1px solid var(--line)}
+  table.rank td{padding:11px 12px;border-bottom:1px solid var(--line-soft)}
   table.rank td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
   table.rank tr:hover td{background:var(--paper)}
-  .rank-bar{height:6px;border-radius:4px;background:var(--primary);opacity:.85;display:inline-block;vertical-align:middle;margin-left:8px}
+  .rank-bar{height:7px;border-radius:4px;background:var(--primary);opacity:.85;display:inline-block;vertical-align:middle;margin-left:10px}
 
-  .section-title{font-size:14px;font-weight:600;margin:0 0 4px;display:flex;align-items:center;gap:8px}
-  .section-sub{font-size:12.5px;color:var(--ink-soft);margin:0 0 14px}
+  .section-title{font-size:15px;font-weight:600;margin:0 0 5px;display:flex;align-items:center;gap:8px}
+  .section-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 16px}
 
-  /* ---------- Modal (importar) ---------- */
-  .modal-back{position:fixed;inset:0;background:rgba(30,42,50,.4);display:none;place-items:center;padding:20px;z-index:40}
+  /* ---------- Modal ---------- */
+  .modal-back{position:fixed;inset:0;background:rgba(30,42,50,.42);display:none;place-items:center;padding:20px;z-index:40}
   .modal-back.show{display:grid}
-  .modal{background:var(--surface);border-radius:16px;padding:24px;max-width:560px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.2)}
-  .modal h3{font-family:'Fraunces',serif;font-weight:500;font-size:20px;margin-bottom:6px}
-  .modal p{color:var(--ink-soft);font-size:13.5px;margin:0 0 14px}
-  .modal textarea{width:100%;min-height:180px;padding:.7em;border:1px solid var(--line);border-radius:10px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;resize:vertical}
-  .modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
-  .import-msg{font-size:13px;margin-top:10px}
+  .modal{background:var(--surface);border-radius:18px;padding:28px;max-width:580px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+  .modal h3{font-family:'Fraunces',serif;font-weight:500;font-size:22px;margin-bottom:8px}
+  .modal p{color:var(--ink-soft);font-size:14px;margin:0 0 16px}
+  .modal textarea{width:100%;min-height:190px;padding:.8em;border:1px solid var(--line);border-radius:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;resize:vertical}
+  .modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+  .import-msg{font-size:13.5px;margin-top:10px}
 
-  .toast{
-    position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
-    background:var(--ink);color:#fff;padding:11px 18px;border-radius:10px;font-size:14px;
-    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;box-shadow:var(--shadow)
-  }
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:12px 20px;border-radius:11px;font-size:15px;
+    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;box-shadow:var(--shadow)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
   .hidden{display:none !important}
 
-  @media(max-width:560px){
-    .reparto-row{flex-wrap:wrap}
-    .reparto-row .row-actions{width:100%;justify-content:flex-end;border-top:1px solid var(--line-soft);padding-top:8px}
-    .entry .personas{width:64px}
+  @media(max-width:600px){
+    .app-root{padding:0 16px 80px}
+    .list-row{flex-wrap:wrap}
+    .list-row .row-actions{width:100%;justify-content:flex-end;border-top:1px solid var(--line-soft);padding-top:10px;margin-top:4px}
+    .entry .personas{width:66px}
+    .detail-date{font-size:26px}
   }
 
   /* ---------- Print (PDF) ---------- */
@@ -222,7 +259,7 @@
     body{background:#fff}
     body > *:not(#printArea){display:none !important}
     #printArea{display:block;color:#000;font-family:'Inter',sans-serif}
-    .doc-head{text-align:center;margin-bottom:26px}
+    .doc-head{text-align:center;margin-bottom:28px}
     .doc-head .parr{font-family:'Fraunces',serif;font-size:19px;font-weight:600;letter-spacing:.02em}
     .doc-head .tit{font-family:'Fraunces',serif;font-size:16px;font-weight:500;margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
     .doc-head .rep{margin-top:10px;font-size:14px}
@@ -277,11 +314,13 @@
     <span id="alertBannerText"></span>
   </div>
 
-  <nav class="tabs">
-    <button class="tab active" data-tab="repartos">Repartos</button>
-    <button class="tab" data-tab="personas">Personas</button>
-    <button class="tab" data-tab="analisis">Análisis <span class="count hidden" id="tabAlertCount"></span></button>
-  </nav>
+  <div class="tabs-wrap">
+    <nav class="tabs">
+      <button class="tab active" data-tab="repartos">Repartos</button>
+      <button class="tab" data-tab="personas">Personas</button>
+      <button class="tab" data-tab="analisis">Análisis <span class="count hidden" id="tabAlertCount"></span></button>
+    </nav>
+  </div>
 
   <div id="view"></div>
 </div>
@@ -290,7 +329,7 @@
 <div class="modal-back" id="importModal">
   <div class="modal">
     <h3>Importar histórico</h3>
-    <p>Pega aquí los datos en formato JSON (te los preparo yo a partir de tus informes de Word). Cada reparto se guarda por su fecha; si ya existe uno en esa fecha, se reemplaza.</p>
+    <p>Pega aquí los datos en formato JSON. Cada reparto se guarda por su fecha; si ya existe uno en esa fecha, se reemplaza.</p>
     <textarea id="importText" placeholder='[ { "fecha": "2023-12-16", "ausencias": [...], "noAlta": [...], "incidencias": "" } ]'></textarea>
     <div class="import-msg" id="importMsg"></div>
     <div class="modal-foot">
@@ -321,20 +360,19 @@
     appId: "1:40472994270:web:3a5ae1bae2a490effafd4f"
   };
   const ALLOWED_UID = "4QU06oLWsWfbocZudin2UmeF70p1";
-  const STREAK_ALERT = 3; // aviso a las 3 faltas seguidas
+  const STREAK_ALERT = 3;
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
   // ---------- estado ----------
-  let repartos = [];        // [{fecha, ausencias:[{nombre,personas}], noAlta:[{nombre,personas,observacion}], incidencias}]
+  let repartos = [];
   let currentTab = 'repartos';
-  let editingFecha = null;  // fecha del reparto en edición (o null si es nuevo)
+  let editingFecha = null;
 
   const $ = (s,r=document)=>r.querySelector(s);
   const view = $('#view');
-  // quitar filas dinámicas (delegación única sobre #view)
   view.addEventListener('click',e=>{ const rm=e.target.closest('.rm'); if(rm){ const en=rm.closest('.entry'); if(en) en.remove(); } });
 
   // ---------- helpers ----------
@@ -342,33 +380,16 @@
   const normKey = n => (n||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('es');
   const esc = s => (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const plural = n => n===1 ? '1 persona' : n+' personas';
-  function fechaLarga(iso){
-    if(!iso) return '';
-    const [y,m,d]=iso.split('-').map(Number);
-    return `${d} de ${MESES[m-1]} de ${y}`;
-  }
-  function fechaCorta(iso){
-    const [y,m,d]=iso.split('-').map(Number);
-    return `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
-  }
+  function fechaLarga(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-').map(Number); return `${d} de ${MESES[m-1]} de ${y}`; }
+  function fechaCorta(iso){ const [y,m,d]=iso.split('-').map(Number); return `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`; }
   let toastTimer;
-  function toast(msg){
-    const t=$('#toast'); t.textContent=msg; t.classList.add('show');
-    clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
-  }
+  function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2600); }
 
-  // Nombres únicos (para el autocompletado). Devuelve display por clave normalizada.
   function nameIndex(){
-    const map=new Map(); // key -> {display, count}
+    const map=new Map();
     for(const r of repartos){
-      for(const a of (r.ausencias||[])){
-        const k=normKey(a.nombre); if(!k) continue;
-        const e=map.get(k)||{display:a.nombre.trim(),count:0}; e.count++; map.set(k,e);
-      }
-      for(const a of (r.noAlta||[])){
-        const k=normKey(a.nombre); if(!k) continue;
-        if(!map.has(k)) map.set(k,{display:a.nombre.trim(),count:0});
-      }
+      for(const a of (r.ausencias||[])){ const k=normKey(a.nombre); if(!k) continue; const e=map.get(k)||{display:a.nombre.trim(),count:0}; e.count++; map.set(k,e); }
+      for(const a of (r.noAlta||[])){ const k=normKey(a.nombre); if(!k) continue; if(!map.has(k)) map.set(k,{display:a.nombre.trim(),count:0}); }
     }
     return map;
   }
@@ -378,16 +399,10 @@
     const names=[...nameIndex().values()].map(e=>e.display).sort((a,b)=>a.localeCompare(b,'es'));
     dl.innerHTML=names.map(n=>`<option value="${esc(n)}">`).join('');
   }
-
-  // Faltas de una persona (por clave) dentro de un rango opcional [from,to] (iso)
   function faltasDe(key,from,to){
-    return repartos
-      .filter(r=>(r.ausencias||[]).some(a=>normKey(a.nombre)===key))
-      .filter(r=>(!from||r.fecha>=from)&&(!to||r.fecha<=to))
-      .map(r=>r.fecha)
-      .sort();
+    return repartos.filter(r=>(r.ausencias||[]).some(a=>normKey(a.nombre)===key))
+      .filter(r=>(!from||r.fecha>=from)&&(!to||r.fecha<=to)).map(r=>r.fecha).sort();
   }
-  // Racha actual de faltas consecutivas (contando repartos consecutivos desde el más reciente)
   function rachaActual(key){
     const asc=[...repartos].sort((a,b)=>a.fecha.localeCompare(b.fecha));
     let streak=0; const fechas=[];
@@ -397,31 +412,22 @@
     }
     return {streak,fechas};
   }
-  // Racha máxima histórica
   function rachaMax(key){
     const asc=[...repartos].sort((a,b)=>a.fecha.localeCompare(b.fecha));
     let max=0,cur=0;
-    for(const r of asc){
-      if((r.ausencias||[]).some(a=>normKey(a.nombre)===key)){cur++;max=Math.max(max,cur);} else cur=0;
-    }
+    for(const r of asc){ if((r.ausencias||[]).some(a=>normKey(a.nombre)===key)){cur++;max=Math.max(max,cur);} else cur=0; }
     return max;
   }
   function alertas(){
     const out=[];
-    for(const [key,info] of nameIndex()){
-      const {streak,fechas}=rachaActual(key);
-      if(streak>=STREAK_ALERT) out.push({key,display:info.display,streak,fechas});
-    }
+    for(const [key,info] of nameIndex()){ const {streak,fechas}=rachaActual(key); if(streak>=STREAK_ALERT) out.push({key,display:info.display,streak,fechas}); }
     return out.sort((a,b)=>b.streak-a.streak || a.display.localeCompare(b.display,'es'));
   }
   function ranking(from,to){
     const counts=new Map();
     for(const r of repartos){
       if((from&&r.fecha<from)||(to&&r.fecha>to)) continue;
-      for(const a of (r.ausencias||[])){
-        const k=normKey(a.nombre); if(!k) continue;
-        const e=counts.get(k)||{display:a.nombre.trim(),n:0}; e.n++; counts.set(k,e);
-      }
+      for(const a of (r.ausencias||[])){ const k=normKey(a.nombre); if(!k) continue; const e=counts.get(k)||{display:a.nombre.trim(),n:0}; e.n++; counts.set(k,e); }
     }
     return [...counts.values()].sort((a,b)=>b.n-a.n || a.display.localeCompare(b.display,'es'));
   }
@@ -434,69 +440,53 @@
       $('#whoEmail').textContent=user.email||'';
       await loadRepartos();
     }else if(user){
-      await signOut(auth); // usuario válido en Firebase pero no autorizado en esta app
+      await signOut(auth);
       showLoginError('Esta cuenta no tiene acceso.');
     }else{
       $('#app').classList.add('hidden');
       $('#loginScreen').classList.remove('hidden');
     }
   });
-
   function showLoginError(m){ $('#loginError').textContent=m; }
-
   $('#loginForm').addEventListener('submit', async e=>{
-    e.preventDefault();
-    showLoginError('');
+    e.preventDefault(); showLoginError('');
     const btn=$('#loginBtn'); btn.disabled=true; btn.textContent='Entrando…';
-    try{
-      await signInWithEmailAndPassword(auth, $('#email').value.trim(), $('#password').value);
-    }catch(err){
+    try{ await signInWithEmailAndPassword(auth, $('#email').value.trim(), $('#password').value); }
+    catch(err){
       const code=err.code||'';
       showLoginError(
         code.includes('invalid-credential')||code.includes('wrong-password')||code.includes('user-not-found')
           ? 'Correo o contraseña incorrectos.'
           : code.includes('too-many-requests') ? 'Demasiados intentos. Espera un momento.'
-          : 'No se ha podido entrar. Revisa la conexión.'
-      );
+          : 'No se ha podido entrar. Revisa la conexión.');
     }finally{ btn.disabled=false; btn.textContent='Entrar'; }
   });
   $('#logoutBtn').addEventListener('click',()=>signOut(auth));
 
-  // ---------- carga de datos ----------
+  // ---------- carga ----------
   async function loadRepartos(){
     const snap=await getDocs(collection(db,'repartos'));
     repartos=snap.docs.map(d=>({
-      fecha:d.id,
-      ausencias:d.data().ausencias||[],
-      noAlta:d.data().noAlta||[],
-      incidencias:d.data().incidencias||''
+      fecha:d.id, ausencias:d.data().ausencias||[], noAlta:d.data().noAlta||[], incidencias:d.data().incidencias||''
     })).sort((a,b)=>b.fecha.localeCompare(a.fecha));
-    refreshDatalist();
-    updateAlertUI();
-    render();
+    refreshDatalist(); updateAlertUI(); render();
   }
-
   function updateAlertUI(){
-    const al=alertas();
-    const banner=$('#alertBanner'), badge=$('#tabAlertCount');
+    const al=alertas(); const banner=$('#alertBanner'), badge=$('#tabAlertCount');
     if(al.length){
       banner.classList.add('show');
-      $('#alertBannerText').innerHTML =
-        `<strong>${al.length} ${al.length===1?'persona':'personas'}</strong> con ${STREAK_ALERT} o más faltas seguidas. Toca para revisar.`;
+      $('#alertBannerText').innerHTML=`<strong>${al.length} ${al.length===1?'persona':'personas'}</strong> con ${STREAK_ALERT} o más faltas seguidas. Toca para revisar.`;
       badge.textContent=al.length; badge.classList.remove('hidden');
-    }else{
-      banner.classList.remove('show'); badge.classList.add('hidden');
-    }
+    }else{ banner.classList.remove('show'); badge.classList.add('hidden'); }
   }
-  $('#alertBanner').addEventListener('click',()=>{ setTab('analisis'); });
+  $('#alertBanner').addEventListener('click',()=>setTab('analisis'));
 
   // ---------- navegación ----------
   document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>setTab(t.dataset.tab)));
   function setTab(tab){
     currentTab=tab; editingFecha=null;
     document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
-    render();
-    window.scrollTo({top:0,behavior:'smooth'});
+    render(); window.scrollTo({top:0,behavior:'smooth'});
   }
   function render(){
     if(currentTab==='repartos') renderRepartos();
@@ -504,7 +494,7 @@
     else renderAnalisis();
   }
 
-  // ---------- vista: REPARTOS ----------
+  // ---------- vista: REPARTOS (lista) ----------
   function renderRepartos(){
     view.innerHTML=`
       <div class="view-head">
@@ -522,38 +512,75 @@
 
     const list=$('#repartoList');
     if(!repartos.length){
-      list.innerHTML=`<div class="empty">
-        <h3>Aún no hay repartos</h3>
-        <p>Crea el primero con «Nuevo reparto», o importa el histórico de tus informes.</p>
-      </div>`;
+      list.innerHTML=`<div class="empty"><h3>Aún no hay repartos</h3><p>Crea el primero con «Nuevo reparto», o importa el histórico de tus informes.</p></div>`;
       return;
     }
-    list.innerHTML=repartos.map(r=>{
+    list.innerHTML=`<div class="list">${repartos.map(r=>{
       const nf=(r.ausencias||[]).length, nn=(r.noAlta||[]).length;
-      const stats=[
-        nf?`${nf} ${nf===1?'familia faltó':'familias faltaron'}`:'sin faltas',
-        nn?`${nn} sin alta`:null,
-        r.incidencias?.trim()?'otras incidencias':null
-      ].filter(Boolean).join(' · ');
-      return `<div class="reparto-row">
-        <div class="meta">
-          <div class="date">${fechaLarga(r.fecha)}</div>
-          <div class="stat">${stats}</div>
-        </div>
+      const stats=[ nf?`${nf} ${nf===1?'familia faltó':'familias faltaron'}`:'sin faltas',
+        nn?`${nn} sin alta`:null, r.incidencias?.trim()?'otras incidencias':null ].filter(Boolean).join(' · ');
+      return `<div class="list-row" data-f="${r.fecha}">
+        <div class="meta"><div class="date">${fechaLarga(r.fecha)}</div><div class="stat">${stats}</div></div>
         <div class="row-actions">
-          <button class="btn ghost small" data-act="edit" data-f="${r.fecha}">Ver / editar</button>
           <button class="btn ghost small" data-act="pdf" data-f="${r.fecha}">PDF</button>
           <button class="btn danger small" data-act="del" data-f="${r.fecha}">Eliminar</button>
+          <svg class="icon chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
         </div>
       </div>`;
-    }).join('');
+    }).join('')}</div>`;
 
-    list.querySelectorAll('[data-act]').forEach(b=>b.addEventListener('click',()=>{
-      const f=b.dataset.f;
-      if(b.dataset.act==='edit') openEditor(f);
-      else if(b.dataset.act==='pdf') printInforme(f);
-      else delReparto(f);
-    }));
+    list.querySelectorAll('.list-row').forEach(row=>{
+      row.addEventListener('click',e=>{
+        const b=e.target.closest('[data-act]');
+        if(b){ e.stopPropagation(); if(b.dataset.act==='pdf') printInforme(b.dataset.f); else delReparto(b.dataset.f); return; }
+        openReparto(row.dataset.f);
+      });
+    });
+  }
+
+  // ---------- vista: REPARTO (lectura) ----------
+  function openReparto(fecha){
+    const r=repartos.find(x=>x.fecha===fecha); if(!r) return;
+    editingFecha=null;
+    const aus=r.ausencias||[], no=r.noAlta||[];
+    const persAus=aus.reduce((s,a)=>s+(Number(a.personas)||0),0);
+    view.innerHTML=`
+      <button class="btn ghost back" id="backBtn"><svg class="icon" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg> Volver a repartos</button>
+      <div class="detail-head">
+        <div>
+          <div class="detail-date">${fechaLarga(r.fecha)}</div>
+          <div class="detail-sub">Reparto de alimentos · Parroquia de Santa Matilde</div>
+        </div>
+        <div class="detail-actions">
+          <button class="btn" id="dEdit"><svg class="icon" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Editar</button>
+          <button class="btn" id="dPdf">Exportar a PDF</button>
+          <button class="btn danger" id="dDel">Eliminar</button>
+        </div>
+      </div>
+
+      <section class="block">
+        <div class="block-head"><h3>Familias que no vinieron</h3><span class="tag">${aus.length}</span>
+          ${aus.length?`<span class="totals">${persAus} personas en total</span>`:''}</div>
+        ${aus.length
+          ? `<div class="namecols">${aus.map(a=>`<div class="nameitem"><span class="nm">${esc(a.nombre)}</span><span class="pc" title="personas">${a.personas}</span></div>`).join('')}</div>`
+          : `<p class="muted">Ninguna.</p>`}
+      </section>
+
+      <section class="block">
+        <div class="block-head"><h3>Personas sin estar dadas de alta</h3><span class="tag">${no.length}</span></div>
+        ${no.length
+          ? `<div class="noalta-list">${no.map(a=>`<div class="noalta-item"><div class="noalta-top"><span class="nm">${esc(a.nombre)}</span><span class="pc">${plural(a.personas)}</span></div>${a.observacion?`<div class="obs">${esc(a.observacion)}</div>`:''}</div>`).join('')}</div>`
+          : `<p class="muted">Ninguna.</p>`}
+      </section>
+
+      ${r.incidencias?.trim()
+        ? `<section class="block"><div class="block-head"><h3>Otras incidencias</h3></div><div class="freetext">${esc(r.incidencias).replace(/\n/g,'<br>')}</div></section>`
+        : ''}`;
+    $('#backBtn').addEventListener('click',renderRepartos);
+    $('#dEdit').addEventListener('click',()=>openEditor(fecha));
+    $('#dPdf').addEventListener('click',()=>printInforme(fecha));
+    $('#dDel').addEventListener('click',()=>delReparto(fecha));
+    window.scrollTo({top:0,behavior:'smooth'});
   }
 
   // ---------- editor ----------
@@ -572,7 +599,6 @@
       <textarea class="obs" placeholder="Observación (opcional)">${esc(obs)}</textarea>
     </div>`;
   }
-
   function openEditor(fecha){
     editingFecha=fecha;
     const r = fecha ? repartos.find(x=>x.fecha===fecha) : null;
@@ -581,12 +607,10 @@
       <div class="editor">
         <h2>${r?'Editar reparto':'Nuevo reparto'}</h2>
         <p class="lead">${r?fechaLarga(r.fecha):'Registra las incidencias del reparto.'}</p>
-
         <fieldset>
           <legend>Fecha del reparto</legend>
           <input type="date" class="date-input" id="fFecha" value="${r?r.fecha:hoy}">
         </fieldset>
-
         <fieldset>
           <legend>Familias dadas de alta que no vinieron</legend>
           <div class="hint">Empieza a escribir y se sugerirán nombres ya registrados, para reutilizarlos.</div>
@@ -594,72 +618,58 @@
           <div class="rows" id="rowsAus"></div>
           <button class="btn small" type="button" id="addAus">+ Añadir familia</button>
         </fieldset>
-
         <fieldset>
           <legend>Personas que vinieron sin estar dadas de alta</legend>
           <div class="hint">Con una observación si hace falta (por ejemplo, si se le pidió pasar por el despacho).</div>
           <div class="rows" id="rowsNoAlta"></div>
           <button class="btn small" type="button" id="addNoAlta">+ Añadir persona</button>
         </fieldset>
-
         <fieldset>
           <legend>Otras incidencias</legend>
           <textarea class="incidencias" id="fIncidencias" placeholder="Cualquier otra incidencia del reparto.">${esc(r?.incidencias||'')}</textarea>
         </fieldset>
-
         <div class="editor-foot">
           <button class="btn danger" type="button" id="cancelEdit">Cancelar</button>
           <span class="spacer"></span>
           <button class="btn primary" type="button" id="saveEdit">Guardar reparto</button>
         </div>
       </div>`;
-
     const rowsAus=$('#rowsAus'), rowsNo=$('#rowsNoAlta');
     if(r && r.ausencias.length) rowsAus.innerHTML=r.ausencias.map(a=>entryRowAusencia(a.nombre,a.personas)).join('');
     else rowsAus.insertAdjacentHTML('beforeend',entryRowAusencia());
     if(r && r.noAlta.length) rowsNo.innerHTML=r.noAlta.map(a=>entryRowNoAlta(a.nombre,a.personas,a.observacion)).join('');
-
     $('#addAus').addEventListener('click',()=>{ rowsAus.insertAdjacentHTML('beforeend',entryRowAusencia()); rowsAus.lastElementChild.querySelector('.row-input').focus(); });
     $('#addNoAlta').addEventListener('click',()=>{ rowsNo.insertAdjacentHTML('beforeend',entryRowNoAlta()); rowsNo.lastElementChild.querySelector('.row-input').focus(); });
-    $('#cancelEdit').addEventListener('click',()=>{ editingFecha=null; renderRepartos(); });
+    $('#cancelEdit').addEventListener('click',()=>{ if(r) openReparto(fecha); else { editingFecha=null; renderRepartos(); } });
     $('#saveEdit').addEventListener('click',saveReparto);
+    window.scrollTo({top:0,behavior:'smooth'});
   }
-
   function collectRows(container){
     return [...container.querySelectorAll('.entry')].map(el=>{
       const nombre=el.querySelector('.row-input').value.trim();
       const personas=parseInt(el.querySelector('.personas').value,10)||1;
       const obsEl=el.querySelector('.obs');
-      const o={nombre,personas};
-      if(obsEl) o.observacion=obsEl.value.trim();
-      return o;
+      const o={nombre,personas}; if(obsEl) o.observacion=obsEl.value.trim(); return o;
     }).filter(x=>x.nombre);
   }
-
   async function saveReparto(){
     const fecha=$('#fFecha').value;
     if(!fecha){ toast('Falta la fecha del reparto.'); return; }
     const ausencias=collectRows($('#rowsAus'));
     const noAlta=collectRows($('#rowsNoAlta'));
     const incidencias=$('#fIncidencias').value.trim();
-
-    // ¿colisión de fecha con otro reparto distinto?
     const existe=repartos.some(r=>r.fecha===fecha && r.fecha!==editingFecha);
     if(existe && !confirm('Ya existe un reparto en esa fecha. ¿Reemplazarlo con estos datos?')) return;
-
     const btn=$('#saveEdit'); btn.disabled=true; btn.textContent='Guardando…';
     try{
       await setDoc(doc(db,'repartos',fecha),{ausencias,noAlta,incidencias,actualizado:serverTimestamp()});
       if(editingFecha && editingFecha!==fecha) await deleteDoc(doc(db,'repartos',editingFecha));
       editingFecha=null;
       await loadRepartos();
+      openReparto(fecha);
       toast('Reparto guardado.');
-    }catch(err){
-      btn.disabled=false; btn.textContent='Guardar reparto';
-      toast('No se ha podido guardar. Revisa la conexión.');
-    }
+    }catch(err){ btn.disabled=false; btn.textContent='Guardar reparto'; toast('No se ha podido guardar. Revisa la conexión.'); }
   }
-
   async function delReparto(fecha){
     if(!confirm(`¿Eliminar el reparto del ${fechaLarga(fecha)}? Esta acción no se puede deshacer.`)) return;
     try{ await deleteDoc(doc(db,'repartos',fecha)); await loadRepartos(); toast('Reparto eliminado.'); }
@@ -673,10 +683,8 @@
       <div class="view-head"><h2>Personas</h2></div>
       <div class="panel">
         <div class="search-bar">
-          <div class="field grow">
-            <label for="pName">Nombre</label>
-            <input id="pName" list="nombresList" placeholder="Escribe un nombre" value="${esc(personaSel.display)}">
-          </div>
+          <div class="field grow"><label for="pName">Nombre</label>
+            <input id="pName" list="nombresList" placeholder="Escribe un nombre" value="${esc(personaSel.display)}"></div>
           <div class="range">
             <div class="field"><label for="pFrom">Desde</label><input type="date" class="date-input" id="pFrom" value="${personaSel.from}"></div>
             <div class="field"><label for="pTo">Hasta</label><input type="date" class="date-input" id="pTo" value="${personaSel.to}"></div>
@@ -685,10 +693,7 @@
         </div>
       </div>
       <div id="fichaBox"></div>`;
-    const go=()=>{
-      personaSel={key:normKey($('#pName').value),display:$('#pName').value.trim(),from:$('#pFrom').value,to:$('#pTo').value};
-      renderFicha();
-    };
+    const go=()=>{ personaSel={key:normKey($('#pName').value),display:$('#pName').value.trim(),from:$('#pFrom').value,to:$('#pTo').value}; renderFicha(); };
     $('#pGo').addEventListener('click',go);
     $('#pName').addEventListener('change',go);
     $('#pName').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
@@ -702,10 +707,7 @@
     const fechas=faltasDe(personaSel.key,personaSel.from,personaSel.to);
     const rActual=rachaActual(personaSel.key).streak;
     const rMax=rachaMax(personaSel.key);
-    if(!idx){
-      box.innerHTML=`<div class="empty"><h3>Sin registros</h3><p>No hay ninguna persona con ese nombre en los repartos guardados.</p></div>`;
-      return;
-    }
+    if(!idx){ box.innerHTML=`<div class="empty"><h3>Sin registros</h3><p>No hay ninguna persona con ese nombre en los repartos guardados.</p></div>`; return; }
     const rango = (personaSel.from||personaSel.to)
       ? `Del ${personaSel.from?fechaCorta(personaSel.from):'inicio'} al ${personaSel.to?fechaCorta(personaSel.to):'hoy'}` : 'Todo el histórico';
     box.innerHTML=`
@@ -720,9 +722,7 @@
           <div class="stat-card"><div class="n">${rMax}</div><div class="k">máximo seguidas</div></div>
         </div>
         <div class="section-sub">${rango}</div>
-        ${fechas.length
-          ? `<ul class="date-list">${fechas.map(f=>`<li>${fechaLarga(f)}</li>`).join('')}</ul>`
-          : `<div class="section-sub">No faltó ninguna vez en este periodo.</div>`}
+        ${fechas.length ? `<ul class="date-list">${fechas.map(f=>`<li>${fechaLarga(f)}</li>`).join('')}</ul>` : `<div class="section-sub">No faltó ninguna vez en este periodo.</div>`}
       </div>`;
     $('#fichaPdf').addEventListener('click',()=>printFicha(personaSel.key));
   }
@@ -733,7 +733,6 @@
     const al=alertas();
     view.innerHTML=`
       <div class="view-head"><h2>Análisis</h2></div>
-
       <div class="panel">
         <div class="section-title">
           <svg class="icon" viewBox="0 0 24 24" style="stroke:var(--warn)"><path d="M12 9v4m0 4h.01M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
@@ -742,10 +741,9 @@
         <p class="section-sub">Personas que han faltado en los ${STREAK_ALERT} últimos repartos consecutivos o más. Agosto no rompe la racha, porque no hay reparto.</p>
         <div id="alertList"></div>
       </div>
-
       <div class="panel">
         <div class="section-title">Quién más falta</div>
-        <div class="search-bar" style="margin-bottom:16px">
+        <div class="search-bar" style="margin-bottom:18px">
           <div class="range">
             <div class="field"><label for="rFrom">Desde</label><input type="date" class="date-input" id="rFrom" value="${rankRange.from}"></div>
             <div class="field"><label for="rTo">Hasta</label><input type="date" class="date-input" id="rTo" value="${rankRange.to}"></div>
@@ -754,16 +752,13 @@
         </div>
         <div id="rankBox"></div>
       </div>`;
-
     const alBox=$('#alertList');
     alBox.innerHTML = al.length
       ? al.map(a=>`<div class="alert-card">
           <div><div class="name">${esc(a.display)}</div>
           <div class="runs">Desde el ${fechaCorta(a.fechas[0])} · ${a.fechas.length} repartos seguidos</div></div>
-          <div class="streak">${a.streak}<small>seguidas</small></div>
-        </div>`).join('')
+          <div class="streak">${a.streak}<small>seguidas</small></div></div>`).join('')
       : `<div class="section-sub">Nadie acumula ${STREAK_ALERT} faltas seguidas ahora mismo.</div>`;
-
     $('#rGo').addEventListener('click',()=>{ rankRange={from:$('#rFrom').value,to:$('#rTo').value}; renderRank(); });
     renderRank();
   }
@@ -773,34 +768,26 @@
     if(!data.length){ box.innerHTML=`<div class="section-sub">Sin faltas registradas en este periodo.</div>`; return; }
     const max=data[0].n;
     box.innerHTML=`<table class="rank"><thead><tr><th>Persona</th><th style="text-align:right">Faltas</th></tr></thead><tbody>
-      ${data.map(d=>`<tr>
-        <td>${esc(d.display)}<span class="rank-bar" style="width:${Math.round(60*d.n/max)}px"></span></td>
-        <td class="num">${d.n}</td></tr>`).join('')}
+      ${data.map(d=>`<tr><td>${esc(d.display)}<span class="rank-bar" style="width:${Math.round(70*d.n/max)}px"></span></td><td class="num">${d.n}</td></tr>`).join('')}
     </tbody></table>`;
   }
 
   // ---------- IMPORTAR ----------
   $('#importCancel').addEventListener('click',()=>{ $('#importModal').classList.remove('show'); $('#importMsg').textContent=''; });
-  $('#importModal').addEventListener('click',e=>{ if(e.target.id==='importModal'){ e.target.classList.remove('show'); } });
+  $('#importModal').addEventListener('click',e=>{ if(e.target.id==='importModal') e.target.classList.remove('show'); });
   $('#importRun').addEventListener('click',async ()=>{
     const msg=$('#importMsg'); msg.style.color='var(--danger)';
     let data;
-    try{ data=JSON.parse($('#importText').value); }
-    catch{ msg.textContent='El texto no es un JSON válido.'; return; }
+    try{ data=JSON.parse($('#importText').value); } catch{ msg.textContent='El texto no es un JSON válido.'; return; }
     if(!Array.isArray(data)){ msg.textContent='Se esperaba una lista de repartos.'; return; }
     const btn=$('#importRun'); btn.disabled=true; btn.textContent='Importando…';
     let ok=0,fail=0;
     for(const r of data){
       if(!r || !r.fecha){ fail++; continue; }
-      try{
-        await setDoc(doc(db,'repartos',r.fecha),{
-          ausencias:Array.isArray(r.ausencias)?r.ausencias:[],
-          noAlta:Array.isArray(r.noAlta)?r.noAlta:[],
-          incidencias:r.incidencias||'',
-          actualizado:serverTimestamp()
-        });
-        ok++;
-      }catch{ fail++; }
+      try{ await setDoc(doc(db,'repartos',r.fecha),{
+        ausencias:Array.isArray(r.ausencias)?r.ausencias:[], noAlta:Array.isArray(r.noAlta)?r.noAlta:[],
+        incidencias:r.incidencias||'', actualizado:serverTimestamp() }); ok++; }
+      catch{ fail++; }
     }
     btn.disabled=false; btn.textContent='Importar';
     msg.style.color=fail?'var(--danger)':'var(--primary)';
@@ -809,12 +796,11 @@
     if(!fail){ setTimeout(()=>{ $('#importModal').classList.remove('show'); msg.textContent=''; $('#importText').value=''; },1200); }
   });
 
-  // ---------- PDF (imprimir) ----------
+  // ---------- PDF ----------
   function printInforme(fecha){
     const r=repartos.find(x=>x.fecha===fecha); if(!r) return;
     const aus=(r.ausencias||[]), no=(r.noAlta||[]);
-    const pa=$('#printArea');
-    pa.innerHTML=`
+    $('#printArea').innerHTML=`
       <div class="doc-head">
         <div class="parr">PARROQUIA DE SANTA MATILDE</div>
         <div class="tit">Informe de incidencias</div>
@@ -838,8 +824,7 @@
     const rango=(personaSel.from||personaSel.to)
       ? `Periodo: del ${personaSel.from?fechaCorta(personaSel.from):'inicio'} al ${personaSel.to?fechaCorta(personaSel.to):'hoy'}`
       : 'Periodo: todo el histórico';
-    const pa=$('#printArea');
-    pa.innerHTML=`
+    $('#printArea').innerHTML=`
       <div class="doc-head">
         <div class="parr">PARROQUIA DE SANTA MATILDE</div>
         <div class="tit">Ficha de faltas</div>
