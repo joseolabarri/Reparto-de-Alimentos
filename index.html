@@ -252,24 +252,42 @@
     .detail-date{font-size:26px}
   }
 
-  /* ---------- Print (PDF) ---------- */
+  /* ---------- Print (PDF) · escala de grises, una página ---------- */
   #printArea{display:none}
   @media print{
-    @page{margin:22mm 20mm}
-    body{background:#fff}
+    @page{size:A4;margin:15mm 17mm}
+    html,body{background:#fff}
     body > *:not(#printArea){display:none !important}
-    #printArea{display:block;color:#000;font-family:'Inter',sans-serif}
-    .doc-head{text-align:center;margin-bottom:28px}
-    .doc-head .parr{font-family:'Fraunces',serif;font-size:19px;font-weight:600;letter-spacing:.02em}
-    .doc-head .tit{font-family:'Fraunces',serif;font-size:16px;font-weight:500;margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
-    .doc-head .rep{margin-top:10px;font-size:14px}
-    .doc-sec{margin-bottom:20px}
-    .doc-sec h4{font-size:13.5px;font-weight:600;margin:0 0 8px}
-    .doc-sec ul{margin:0;padding-left:20px}
-    .doc-sec li{margin-bottom:4px;font-size:13px;line-height:1.5}
-    .doc-sec .obs{color:#333}
-    .doc-sec p{font-size:13px;line-height:1.6;margin:0}
-    .doc-foot{margin-top:34px;font-size:11px;color:#666;border-top:1px solid #ccc;padding-top:8px}
+    #printArea{display:block;color:#000;font-family:'Inter',sans-serif;font-size:10pt;line-height:1.36;
+      -webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+    .pdf-head{text-align:center;margin-bottom:13pt;padding-bottom:9pt;border-bottom:1.3pt solid #000}
+    .pdf-head .org{font-family:'Fraunces',serif;font-size:10pt;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+    .pdf-head .ttl{font-family:'Fraunces',serif;font-size:19pt;font-weight:500;margin-top:5pt;line-height:1.05}
+    .pdf-head .meta{font-size:10pt;margin-top:6pt}
+
+    .pdf-sec{margin-top:13pt}
+    .pdf-sec > h4{font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin:0;
+      padding-bottom:3pt;border-bottom:.6pt solid #8a8a8a;display:flex;justify-content:space-between;align-items:baseline}
+    .pdf-sec > h4 .c{font-weight:500;color:#555;letter-spacing:0;text-transform:none}
+    .pdf-note{font-size:8pt;color:#666;margin:4pt 0 0}
+
+    .pdf-cols{column-count:2;column-gap:20pt;margin-top:6pt}
+    .pdf-cols .it{break-inside:avoid;display:flex;justify-content:space-between;gap:8pt;
+      padding:2.2pt 0;border-bottom:.4pt dotted #b4b4b4;font-size:10pt}
+    .pdf-cols .it .p{flex:none;color:#444;font-variant-numeric:tabular-nums}
+
+    .pdf-na{margin-top:6pt}
+    .pdf-na .it{break-inside:avoid;margin-bottom:6pt}
+    .pdf-na .it .top{font-weight:600}
+    .pdf-na .it .top .p{font-weight:400;color:#444}
+    .pdf-na .it .ob{font-size:9pt;color:#222;margin-top:1pt;line-height:1.4}
+
+    .pdf-free{font-size:9.5pt;line-height:1.5;margin-top:6pt}
+    .pdf-none{font-size:9.5pt;color:#555;font-style:italic;margin-top:6pt}
+
+    .pdf-foot{margin-top:16pt;padding-top:5pt;border-top:.5pt solid #8a8a8a;
+      font-size:8pt;color:#555;display:flex;justify-content:space-between}
   }
 </style>
 </head>
@@ -800,22 +818,28 @@
   function printInforme(fecha){
     const r=repartos.find(x=>x.fecha===fecha); if(!r) return;
     const aus=(r.ausencias||[]), no=(r.noAlta||[]);
+    const persAus=aus.reduce((s,a)=>s+(Number(a.personas)||0),0);
     $('#printArea').innerHTML=`
-      <div class="doc-head">
-        <div class="parr">PARROQUIA DE SANTA MATILDE</div>
-        <div class="tit">Informe de incidencias</div>
-        <div class="rep">Reparto de alimentos · ${fechaLarga(r.fecha)}</div>
+      <div class="pdf-head">
+        <div class="org">Parroquia de Santa Matilde</div>
+        <div class="ttl">Informe de incidencias</div>
+        <div class="meta">Reparto de alimentos · ${fechaLarga(r.fecha)}</div>
       </div>
-      <div class="doc-sec">
-        <h4>Familias que no vinieron estando dadas de alta ese día:</h4>
-        ${aus.length?`<ul>${aus.map(a=>`<li>${esc(a.nombre)} (${plural(a.personas)})</li>`).join('')}</ul>`:`<p>Ninguna.</p>`}
+      <div class="pdf-sec">
+        <h4><span>Familias que no vinieron estando dadas de alta</span><span class="c">${aus.length} ${aus.length===1?'familia':'familias'} · ${persAus} personas</span></h4>
+        ${aus.length
+          ? `<p class="pdf-note">La cifra a la derecha de cada nombre indica el nº de personas de la familia.</p>
+             <div class="pdf-cols">${aus.map(a=>`<div class="it"><span class="n">${esc(a.nombre)}</span><span class="p">${a.personas}</span></div>`).join('')}</div>`
+          : `<p class="pdf-none">Ninguna.</p>`}
       </div>
-      <div class="doc-sec">
-        <h4>Personas que vinieron a por alimentos no estando dadas de alta:</h4>
-        ${no.length?`<ul>${no.map(a=>`<li>${esc(a.nombre)} (${plural(a.personas)})${a.observacion?`. <span class="obs">${esc(a.observacion)}</span>`:''}</li>`).join('')}</ul>`:`<p>Ninguna.</p>`}
+      <div class="pdf-sec">
+        <h4><span>Personas que vinieron sin estar dadas de alta</span><span class="c">${no.length}</span></h4>
+        ${no.length
+          ? `<div class="pdf-na">${no.map(a=>`<div class="it"><div class="top">${esc(a.nombre)} <span class="p">(${plural(a.personas)})</span></div>${a.observacion?`<div class="ob">${esc(a.observacion)}</div>`:''}</div>`).join('')}</div>`
+          : `<p class="pdf-none">Ninguna.</p>`}
       </div>
-      ${r.incidencias?.trim()?`<div class="doc-sec"><h4>Otras incidencias:</h4><p>${esc(r.incidencias).replace(/\n/g,'<br>')}</p></div>`:''}
-      <div class="doc-foot">Generado desde el registro de repartos · ${fechaCorta(new Date().toISOString().slice(0,10))}</div>`;
+      ${r.incidencias?.trim()?`<div class="pdf-sec"><h4><span>Otras incidencias</span></h4><div class="pdf-free">${esc(r.incidencias).replace(/\n/g,'<br>')}</div></div>`:''}
+      <div class="pdf-foot"><span>Parroquia de Santa Matilde · Registro de repartos</span><span>Generado el ${fechaCorta(new Date().toISOString().slice(0,10))}</span></div>`;
     window.print();
   }
   function printFicha(key){
@@ -825,17 +849,22 @@
       ? `Periodo: del ${personaSel.from?fechaCorta(personaSel.from):'inicio'} al ${personaSel.to?fechaCorta(personaSel.to):'hoy'}`
       : 'Periodo: todo el histórico';
     $('#printArea').innerHTML=`
-      <div class="doc-head">
-        <div class="parr">PARROQUIA DE SANTA MATILDE</div>
-        <div class="tit">Ficha de faltas</div>
-        <div class="rep">${esc(idx.display)}</div>
+      <div class="pdf-head">
+        <div class="org">Parroquia de Santa Matilde</div>
+        <div class="ttl">Ficha de faltas</div>
+        <div class="meta">${esc(idx.display)}</div>
       </div>
-      <div class="doc-sec"><p>${rango}<br>Total de faltas: <strong>${fechas.length}</strong> · Máximo de faltas seguidas: <strong>${rachaMax(key)}</strong></p></div>
-      <div class="doc-sec">
-        <h4>Fechas en las que faltó:</h4>
-        ${fechas.length?`<ul>${fechas.map(f=>`<li>${fechaLarga(f)}</li>`).join('')}</ul>`:`<p>No faltó ninguna vez en este periodo.</p>`}
+      <div class="pdf-sec">
+        <h4><span>Resumen</span></h4>
+        <div class="pdf-free">${rango}.<br>Total de faltas: <strong>${fechas.length}</strong> · Máximo de faltas seguidas: <strong>${rachaMax(key)}</strong>.</div>
       </div>
-      <div class="doc-foot">Generado desde el registro de repartos · ${fechaCorta(new Date().toISOString().slice(0,10))}</div>`;
+      <div class="pdf-sec">
+        <h4><span>Fechas en las que faltó</span><span class="c">${fechas.length}</span></h4>
+        ${fechas.length
+          ? `<div class="pdf-cols">${fechas.map(f=>`<div class="it"><span class="n">${fechaLarga(f)}</span></div>`).join('')}</div>`
+          : `<p class="pdf-none">No faltó ninguna vez en este periodo.</p>`}
+      </div>
+      <div class="pdf-foot"><span>Parroquia de Santa Matilde · Registro de repartos</span><span>Generado el ${fechaCorta(new Date().toISOString().slice(0,10))}</span></div>`;
     window.print();
   }
 </script>
