@@ -369,15 +369,26 @@
   import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: "AIzaSyD031cXy6-sfBWVqq0rvzpEsPvx2pXJLCQ",
-    authDomain: "reparto-de-alimentos.firebaseapp.com",
-    projectId: "reparto-de-alimentos",
-    storageBucket: "reparto-de-alimentos.firebasestorage.app",
-    messagingSenderId: "40472994270",
-    appId: "1:40472994270:web:3a5ae1bae2a490effafd4f"
+    apiKey: "AIzaSyDtLGi9kVXgEbvPtrKzalX-Z84SxdFMYa0",
+    authDomain: "biblioteca-d0b28.firebaseapp.com",
+    projectId: "biblioteca-d0b28",
+    storageBucket: "biblioteca-d0b28.firebasestorage.app",
+    messagingSenderId: "95243939121",
+    appId: "1:95243939121:web:817e06db9d4abe1eb81410"
   };
-  const ALLOWED_UID = "4QU06oLWsWfbocZudin2UmeF70p1";
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+  const ALLOWED_UID = "ZIZOg9PALVV2XDNx7OsnOwb74sh1";
   const STREAK_ALERT = 3;
 
   const app = initializeApp(firebaseConfig);
